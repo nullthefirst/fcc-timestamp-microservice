@@ -34,6 +34,12 @@ app.get('/api/:date?', function (req, res) {
     responseObj['utc'] = `${moment(req.params.date).format(
       'ddd, DD MMM YYYY HH:mm:ss',
     )} GMT`;
+
+    // res.json({ msg: 'Unix!' });
+    // responseObj['unix'] = req.params.date;
+    // responseObj['utc'] = `${moment(req.params.date, 'X').format(
+    //   'ddd, DD MMM YYYY HH:mm:ss',
+    // )} GMT`;
   }
   res.json(responseObj);
 });
