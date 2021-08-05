@@ -5,6 +5,9 @@
 var express = require('express');
 var app = express();
 
+// moment package
+const moment = require('moment');
+
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
 var cors = require('cors');
@@ -27,13 +30,17 @@ app.get('/api/hello', function (req, res) {
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
   if (Date.parse(req.params.date) !== NaN) {
-    responseObj['unix'] = Date.parse(`${req.params.date}`);
-    responseObj['utc'] = new Date(`${req.params.date}`);
+    responseObj['unix'] = Date.parse(req.params.date);
+    responseObj['utc'] = `${moment(req.params.date).format(
+      'ddd, DD MMM YYYY HH:mm:ss',
+    )} GMT`;
   }
   res.json(responseObj);
 });
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+const port = process.env.PORT || 8080;
+
+var listener = app.listen(port, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
