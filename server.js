@@ -30,10 +30,18 @@ app.get('/api/hello', function (req, res) {
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
   if (Date.parse(req.params.date) !== NaN) {
-    responseObj['unix'] = Date.parse(req.params.date);
-    responseObj['utc'] = `${moment(req.params.date).format(
-      'ddd, DD MMM YYYY HH:mm:ss',
-    )} GMT`;
+    if (/[-]/.test(req.params.date)) {
+      responseObj['unix'] = Date.parse(req.params.date);
+      responseObj['utc'] = `${moment(req.params.date).format(
+        'ddd, DD MMM YYYY HH:mm:ss',
+      )} GMT`;
+    } else {
+      // res.json({ msg: 'Unix!' });
+      responseObj['unix'] = req.params.date;
+      responseObj['utc'] = `${moment(req.params.date, 'X').format(
+        'ddd, DD MMM YYYY HH:mm:ss',
+      )} GMT`;
+    }
   }
   res.json(responseObj);
 });
