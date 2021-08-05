@@ -25,7 +25,7 @@ app.get('/api/hello', function (req, res) {
 
 // solutions
 app.get('/api/:date?', function (req, res) {
-  let responseObj;
+  let responseObj = {};
   if (Date.parse(req.params.date) !== NaN) {
     responseObj['unix'] = Date.parse(`${req.params.date}`);
     responseObj['utc'] = new Date(`${req.params.date}`);
