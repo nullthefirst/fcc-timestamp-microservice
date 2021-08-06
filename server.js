@@ -33,11 +33,15 @@ app.get('/api/:date?', function (req, res) {
     if (!moment(req.params.date).isValid()) {
       responseObj['error'] = 'Invalid Date';
     } else {
-      responseObj['unix'] = Date.parse(req.params.date);
+      responseObj['unix'] = moment(req.params.date, 'X').isValid()
+        ? Date.parse(req.params.date)
+        : new Date().getTime();
       responseObj['utc'] = `${moment(req.params.date).format(
         'ddd, DD MMM YYYY HH:mm:ss',
       )} GMT`;
     }
+  } else {
+    responseObj['unix'] = new Date().getTime();
   }
   res.json(responseObj);
 });
