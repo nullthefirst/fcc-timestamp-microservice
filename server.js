@@ -29,13 +29,15 @@ app.get('/api/hello', function (req, res) {
 // solutions
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
-  if (moment(req.params.date) === 'Invalid Date') {
-    responseObj['unix'] = Date.parse(req.params.date);
-    responseObj['utc'] = `${moment(req.params.date).format(
-      'ddd, DD MMM YYYY HH:mm:ss',
-    )} GMT`;
-  } else {
-    responseObj['error'] = 'Invalid Date';
+  if (Date.parse(req.params.date) !== NaN) {
+    if (moment(req.params.date) === 'Invalid Date') {
+      responseObj['error'] = 'Invalid Date';
+    } else {
+      responseObj['unix'] = Date.parse(req.params.date);
+      responseObj['utc'] = `${moment(req.params.date).format(
+        'ddd, DD MMM YYYY HH:mm:ss',
+      )} GMT`;
+    }
   }
   res.json(responseObj);
 });
