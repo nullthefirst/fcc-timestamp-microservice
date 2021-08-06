@@ -30,7 +30,7 @@ app.get('/api/hello', function (req, res) {
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
   if (Date.parse(req.params.date) !== NaN) {
-    if (moment(req.params.date) === 'Invalid Date') {
+    if (!moment(req.params.date).isValid()) {
       responseObj['error'] = 'Invalid Date';
     } else {
       responseObj['unix'] = Date.parse(req.params.date);
