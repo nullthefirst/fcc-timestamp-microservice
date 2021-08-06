@@ -29,17 +29,13 @@ app.get('/api/hello', function (req, res) {
 // solutions
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
-  if (Date.parse(req.params.date) !== NaN) {
+  if (new Date(req.params.date) === 'Invalid Date') {
+    responseObj['error'] = 'Invalid Date';
+  } else if (Date.parse(req.params.date) !== NaN) {
     responseObj['unix'] = Date.parse(req.params.date);
     responseObj['utc'] = `${moment(req.params.date).format(
       'ddd, DD MMM YYYY HH:mm:ss',
     )} GMT`;
-
-    // res.json({ msg: 'Unix!' });
-    // responseObj['unix'] = req.params.date;
-    // responseObj['utc'] = `${moment(req.params.date, 'X').format(
-    //   'ddd, DD MMM YYYY HH:mm:ss',
-    // )} GMT`;
   }
   res.json(responseObj);
 });
