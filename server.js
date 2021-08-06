@@ -43,7 +43,7 @@ app.get('/api/:date?', function (req, res) {
       // responseObj['only-unix'] = 'test ...';
       responseObj['unix'] = parseInt(`${req.params.date}`);
       responseObj['utc'] = `${moment(parseInt(`${req.params.date}`))
-        .subtract(1, 'hour')
+        // .subtract(1, 'hour')
         .format('ddd, DD MMM YYYY HH:mm:ss')} GMT`;
     } else {
       responseObj['unix'] = moment(req.params.date, 'X').isValid()
