@@ -30,8 +30,21 @@ app.get('/api/hello', function (req, res) {
 app.get('/api/:date?', function (req, res) {
   let responseObj = {};
   if (Date.parse(req.params.date) !== NaN) {
-    if (!moment(req.params.date).isValid()) {
+    if (
+      !moment(req.params.date).isValid() &&
+      !moment(req.params.date, 'X').isValid()
+    ) {
       responseObj['error'] = 'Invalid Date';
+    } else if (
+      /[0-9]{13}/.test(
+        parseInt(`${req.params.date}`),
+      ) /* RegEx to match only unix string */
+    ) {
+      // responseObj['only-unix'] = 'test ...';
+      responseObj['unix'] = parseInt(`${req.params.date}`);
+      responseObj['utc'] = `${moment(parseInt(`${req.params.date}`))
+        .subtract(1, 'hour')
+        .format('ddd, DD MMM YYYY HH:mm:ss')} GMT`;
     } else {
       responseObj['unix'] = moment(req.params.date, 'X').isValid()
         ? Date.parse(req.params.date)
