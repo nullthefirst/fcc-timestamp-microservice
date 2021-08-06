@@ -38,13 +38,12 @@ app.get('/api/:date?', function (req, res) {
     } else if (
       /[0-9]{13}/.test(
         parseInt(`${req.params.date}`),
-      ) /* RegEx to match only unix string */
+      ) /* RegEx to match only unix timestamp input */
     ) {
-      // responseObj['only-unix'] = 'test ...';
       responseObj['unix'] = parseInt(`${req.params.date}`);
-      responseObj['utc'] = `${moment(parseInt(`${req.params.date}`))
-        // .subtract(1, 'hour')
-        .format('ddd, DD MMM YYYY HH:mm:ss')} GMT`;
+      responseObj['utc'] = `${moment(parseInt(`${req.params.date}`)).format(
+        'ddd, DD MMM YYYY HH:mm:ss',
+      )} GMT`;
     } else {
       responseObj['unix'] = moment(req.params.date, 'X').isValid()
         ? Date.parse(req.params.date)
